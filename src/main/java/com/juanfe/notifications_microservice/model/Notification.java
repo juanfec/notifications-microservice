@@ -1,6 +1,8 @@
 package com.juanfe.notifications_microservice.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,14 +18,17 @@ public class Notification {
     private UUID id;
     private String eventType;
     private String content;
-    private String recipient;
-    private String sender;
+    private UUID recipient;
+    private UUID sender;
     private String status;
     private long timestamp;
 
+    @Enumerated(EnumType.STRING)
+    private NotificationCategory category;
+
     public Notification() {}
 
-    public Notification(String eventType, String content, String recipient, String sender, String status, long timestamp) {
+    public Notification(String eventType, String content, UUID recipient, UUID sender, String status, long timestamp) {
         this.eventType = eventType;
         this.content = content;
         this.recipient = recipient;
@@ -48,19 +53,19 @@ public class Notification {
         this.content = content;
     }
 
-    public String getRecipient() {
+    public UUID getRecipient() {
         return recipient;
     }
 
-    public void setRecipient(String recipient) {
+    public void setRecipient(UUID recipient) {
         this.recipient = recipient;
     }
 
-    public String getSender() {
+    public UUID getSender() {
         return sender;
     }
 
-    public void setSender(String sender) {
+    public void setSender(UUID sender) {
         this.sender = sender;
     }
 
@@ -78,5 +83,13 @@ public class Notification {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public NotificationCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(NotificationCategory category) {
+        this.category = category;
     }
 }
