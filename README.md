@@ -2,6 +2,15 @@
 
 A Spring Boot microservice for handling user notifications with support for real-time WebSocket delivery, Kafka event consumption, notification categories, and user preferences.
 
+The core notification logic resides in the service layer:
+
+- The **NotificationService** class listens for all types of notification events via its **@KafkaListener** methods. It categorizes each event, saves the notification to the database, and then delegates delivery to the **NotificationSenderService**.
+- The **NotificationSenderService** checks if the recipient exists, verifies their notification preferences, and determines the appropriate delivery method. Currently, it uses the **RealtimeNotificationService** to send notifications to players in real time while they are playing the game.
+- If additional notification channels are needed (such as email or push notifications), new services can be implemented. The **NotificationSenderService** would then be responsible for selecting the appropriate service(s) based on user preferences.
+
+This design allows for easy extension and customization of notification delivery methods as your application grows.
+
+
 ## Features
 
 - **Event-driven notifications**: Consumes events from Kafka topics (e.g., `level-up`, `item-acquired`).
